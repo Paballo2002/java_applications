@@ -1,82 +1,66 @@
 /**
  * 
  */
-package to_do_list_task_project;
+package credit_card_project;
 
-import java.io.IOException;
 import java.util.Scanner;
 
-public class Main
+/**
+ * 
+ */
+public class Main 
 {
-	public static void main(String[] args) throws IOException 
+	public static void main(String[] args)
 	{
-		Scanner sn = new Scanner(System.in);
-		ListClass lclass = new ListClass();
-		int i = 0;
-		while(i != -1)
-		{
-			System.out.println("Please enter one of the following options : \n"
-  		          +"------------------------------------------ \n"
-  		          +"1. Add a task : \n"
-  		          +"2. Delete a task : \n"
-  		          +"3. List tasks : \n"
-  		          +"4. Quit : ");
-
-				int input = sn.nextInt();
-				
-				if(input < 0 || input > 4)
-				{
-					System.err.println("The input choise out of bounds");
-				}
-				else
-				{
-					switch(input)
-					{
-					    case 1:
-					    	System.out.println("Please enter the task to be added");
-					    	sn.nextLine();
-					    	String tasktoAdd = sn.nextLine();
-					    	lclass.addtask(tasktoAdd);
-					    	break;
-					    case 2:
-					    	System.out.println("Please enter the task to be removed");
-					    	sn.nextLine();
-					    	String tasktoremove = sn.nextLine();
-					    	
-					    	String choice = null;
-					    	
-					    	for(String element : lclass.getTaskArray())
-					    	{
-					    		if(tasktoremove.equals(element))
-					    		{
-					    			choice = element;
-					    		}
-					    	}
-					    	if(choice != null)
-				    		{
-				    			lclass.deletetask(choice);
-				    			System.out.println("Succesfully deleted!");
-				    		}
-				    		else
-				    		{
-				    			System.err.println("Incorrect choice : ");
-				    			System.err.println("Choose one of the following to remove : ");
-				    			lclass.listTasks();
-				    		}
-					    	break;
-					    case 3:
-					    	lclass.listTasks();
-					    	break;
-					    case 4:
-					    	System.out.println("Good Bye!");
-					    	i = -1;
-					    	break;
-					    default:
-					    		System.out.println("Incorrect Input sir!!!!");
-					    		break;
-					}
-				} 
-			}
-		    sn.close();
-		}
+       System.out.println("Welcome to our ATM Banking, please enter the pin to proceed");
+       ATMmachine atm = new ATMmachine(10000);
+       try (Scanner sc = new Scanner(System.in)) 
+       {
+		   int pin = sc.nextInt();
+		   
+		   int userpin = atm.getUserA().getUserpin();
+		   while(pin != userpin)
+		   {
+			  System.out.println("Your pin it's wrong, try entering again!");
+			  pin = sc.nextInt();
+		   }
+		   int option = 0;
+		   do
+		   {
+			   System.out.println("Enter the transaction: \n"
+	   		             +"---------------------\n"
+	   		             +"1. Deposit : \n"
+	   		             +"2. Withdraw :\n"
+	   		             +"3. Check Balance \n"
+	   		             +"4. Exit :");
+	   
+	            option = sc.nextInt(); 
+	            switch(option)
+	            {
+	                case 1:
+	                	System.out.println("Enter the amount you want to deposit");
+	                	double amount = sc.nextDouble();
+	                	atm.deposit(amount);
+	                	System.out.println("Thanks for choosing this ATM");
+	                	break;
+	                case 2:
+	                	System.out.println("Enter the amount you want to withdraw");
+	                	double amount2 = sc.nextDouble();
+	                	atm.withdrawing(amount2);
+	                	System.out.println("Thanks for choosing this ATM");
+	                	break;
+	                case 3:
+	                	atm.checkBalance();
+	                	break;
+	                case 4:
+	                	System.out.println("Thank you for using the ATM!");
+	                    sc.close();
+	                    break;
+	                default:
+	                    System.out.println("Invalid choice. Please choose again.");
+	            }
+		   }
+		   while(option < 0 || option > 4 || option != 4);
+	   }
 	}
+}
